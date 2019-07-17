@@ -82,6 +82,8 @@ Status CLNodeValidator::validate(INode *node)
             return detail::validate_slice_layer<CLSlice>(*polymorphic_downcast<SliceLayerNode *>(node));
         case NodeType::UpsampleLayer:
             return detail::validate_upsample_layer<CLUpsampleLayer>(*polymorphic_downcast<UpsampleLayerNode *>(node));
+        case NodeType::PreluLayer:
+            return detail::validate_prelu_layer<CLPreluLayer>(*polymorphic_downcast<PreluLayerNode *>(node));
         case NodeType::YOLOLayer:
             return detail::validate_yolo_layer<CLYOLOLayer>(*polymorphic_downcast<YOLOLayerNode *>(node));
         default:

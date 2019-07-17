@@ -233,6 +233,8 @@ std::unique_ptr<IFunction> CLFunctionFactory::create(INode *node, GraphContext &
             return detail::create_stack_layer<CLStackLayer, CLTargetInfo>(*polymorphic_downcast<StackLayerNode *>(node));
         case NodeType::UpsampleLayer:
             return detail::create_upsample_layer<CLUpsampleLayer, CLTargetInfo>(*polymorphic_downcast<UpsampleLayerNode *>(node), ctx);
+        case NodeType::PreluLayer:
+            return detail::create_prelu_layer<CLPreluLayer, CLTargetInfo>(*polymorphic_downcast<PreluLayerNode *>(node));
         case NodeType::YOLOLayer:
             return detail::create_yolo_layer<CLYOLOLayer, CLTargetInfo>(*polymorphic_downcast<YOLOLayerNode *>(node), ctx);
         default:

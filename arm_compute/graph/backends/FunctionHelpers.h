@@ -1364,6 +1364,38 @@ std::unique_ptr<IFunction> create_upsample_layer(UpsampleLayerNode &node, GraphC
 
     return std::move(func);
 }
+
+template <typename PreluLayerFunction, typename TargetInfo>
+  std::unique_ptr<IFunction> create_prelu_layer(PreluLayerNode &node)
+{
+    validate_node<TargetInfo>(node, 2 /* expected inputs */, 1 /* expected outputs */);
+
+    // Extract IO and info
+    typename TargetInfo::TensorType *input             = get_backing_tensor<TargetInfo>(node.input(0));
+    typename TargetInfo::TensorType *output            = get_backing_tensor<TargetInfo>(node.output(0));
+    //const Size2D                     info              = node.info();
+    //ARM_COMPUTE_ERROR_ON(info.x() != 2 || info.y() != 2);
+    ARM_COMPUTE_ERROR_ON(input == nullptr);
+    ARM_COMPUTE_ERROR_ON(output == nullptr);
+
+    // Create and configure function
+    auto func = support::cpp14::make_unique<PreluLayerFunction>();
+    typename TargetInfo::TensorType *slope   = get_backing_tensor<TargetInfo>(node.input(1));
+    func->configure(input, output, slope);
+
+    // Log info
+    ARM_COMPUTE_LOG_GRAPH_INFO("Instantiated "
+                               << node.name()
+                               << " Type: " << node.type()
+                               << " Target: " << TargetInfo::TargetType
+                               << " Data Type: " << input->info()->data_type()
+                               << " Input shape: " << input->info()->tensor_shape()
+                               << " Output shape: " << output->info()->tensor_shape()
+                               << std::endl);
+
+    return std::move(func);
+}
+
 /** Create a backend YOLO layer function
  *
  * @tparam YoloLayerFunction Backend YOLO function

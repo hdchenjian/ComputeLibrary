@@ -145,6 +145,7 @@
 #include "arm_compute/core/CL/kernels/CLTileKernel.h"
 #include "arm_compute/core/CL/kernels/CLTransposeKernel.h"
 #include "arm_compute/core/CL/kernels/CLUpsampleLayerKernel.h"
+#include "arm_compute/core/CL/kernels/CLPreluLayerKernel.h"
 #include "arm_compute/core/CL/kernels/CLWarpAffineKernel.h"
 #include "arm_compute/core/CL/kernels/CLWarpPerspectiveKernel.h"
 #include "arm_compute/core/CL/kernels/CLWeightsReshapeKernel.h"

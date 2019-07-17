@@ -485,6 +485,7 @@ const std::map<std::string, std::string> CLKernelLibrary::_kernel_program_map =
     { "UYVY422_to_RGBA8888_bt709", "color_convert.cl" },
     { "upsample_layer_nchw", "upsample_layer.cl" },
     { "upsample_layer_nhwc", "upsample_layer.cl" },
+    { "prelu_layer_nchw", "prelu_layer.cl" },
     { "warp_affine_nearest_neighbour", "warp_affine.cl" },
     { "warp_affine_bilinear", "warp_affine.cl" },
     { "warp_perspective_nearest_neighbour", "warp_perspective.cl" },
@@ -656,6 +657,10 @@ const std::map<std::string, std::string> CLKernelLibrary::_program_source_map =
     {
         "upsample_layer.cl",
 #include "./cl_kernels/upsample_layer.clembed"
+    },
+    {
+        "prelu_layer.cl",
+#include "./cl_kernels/prelu_layer.clembed"
     },
     {
         "deconvolution_layer.cl",

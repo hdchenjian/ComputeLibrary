@@ -64,6 +64,7 @@ class SplitLayerNode;
 class StackLayerNode;
 class UpsampleLayerNode;
 class YOLOLayerNode;
+class PreluLayerNode;
 } // namespace graph
 } // namespace arm_compute
 #endif /* __ARM_COMPUTE_GRAPH_NODES_FWD_H__ */

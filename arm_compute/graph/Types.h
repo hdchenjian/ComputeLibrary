@@ -128,6 +128,7 @@ enum class FastMathHint
 /** Supported nodes */
 enum class NodeType
 {
+    PreluLayer,
     ActivationLayer,
     BatchNormalizationLayer,
     BoundingBoxTransformLayer,

@@ -655,5 +655,23 @@ NodeID GraphBuilder::add_yolo_node(Graph &g, NodeParams params, NodeIdxPair inpu
 {
     return create_simple_single_input_output_node<YOLOLayerNode>(g, params, input, act_info, num_classes);
 }
+
+NodeID GraphBuilder::add_prelu_node(Graph &g, NodeParams params, NodeIdxPair input, ITensorAccessorUPtr slope)
+{
+    check_nodeidx_pair(input, g);
+    // Get input tensor descriptor
+    const TensorDescriptor input_tensor_desc = get_tensor_descriptor(g, g.node(input.node_id)->outputs()[0]);
+    
+    TensorDescriptor common_desc = input_tensor_desc;
+    common_desc.shape            = TensorShape(get_dimension_size(input_tensor_desc, DataLayoutDimension::CHANNEL));
+    auto slope_nid = add_const_node_with_name(g, params, "Slope", common_desc, std::move(slope));
+
+    NodeID prelu_node_id = g.add_node<PreluLayerNode>();
+    g.add_connection(input.node_id, input.index, prelu_node_id, 0);
+    g.add_connection(slope_nid, 0, prelu_node_id, 1);
+    set_node_params(g, prelu_node_id, params);
+    return prelu_node_id;
+}
+
 } // namespace graph
 } // namespace arm_compute

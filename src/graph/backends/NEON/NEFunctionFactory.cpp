@@ -198,6 +198,8 @@ std::unique_ptr<IFunction> NEFunctionFactory::create(INode *node, GraphContext &
     NodeType type = node->type();
     switch(type)
     {
+        case NodeType::PreluLayer:
+            return detail::create_prelu_layer<NEPreluLayer, NETargetInfo>(*polymorphic_downcast<PreluLayerNode *>(node));
         case NodeType::ActivationLayer:
             return detail::create_activation_layer<NEActivationLayer, NETargetInfo>(*polymorphic_downcast<ActivationLayerNode *>(node));
         case NodeType::BatchNormalizationLayer:

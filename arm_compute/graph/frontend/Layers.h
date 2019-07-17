@@ -1150,6 +1150,30 @@ private:
     InterpolationPolicy _upsampling_policy;
 };
 
+class PreluLayer final : public ILayer
+{
+public:
+    /** Construct a Prelu layer.
+     *
+     * @param[in] info              Stride info
+     * @param[in] upsampling_policy Upsampling policy
+     */
+    PreluLayer(ITensorAccessorUPtr slope)
+        : _slope(std::move(slope))
+    {
+    }
+
+    NodeID create_layer(IStream &s) override
+    {
+        NodeParams  common_params = { name(), s.hints().target_hint };
+        NodeIdxPair input         = { s.tail_node(), 0 };
+        return GraphBuilder::add_prelu_node(s.graph(), common_params, input, std::move(_slope));
+    }
+
+private:
+    ITensorAccessorUPtr _slope;
+};
+
 /** YOLO Layer */
 class YOLOLayer final : public ILayer
 {

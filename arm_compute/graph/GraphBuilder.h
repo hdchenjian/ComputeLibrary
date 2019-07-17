@@ -475,6 +475,7 @@ public:
      * @return Node ID of the created node, EmptyNodeID in case of error
      */
     static NodeID add_yolo_node(Graph &g, NodeParams params, NodeIdxPair input, ActivationLayerInfo act_info, int32_t num_classes);
+    static NodeID add_prelu_node(Graph &g, NodeParams params, NodeIdxPair input, ITensorAccessorUPtr slope);
 };
 } // namespace graph
 } // namespace arm_compute
